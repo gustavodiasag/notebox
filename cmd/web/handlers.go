@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"html/template"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -14,7 +16,26 @@ func home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("Health check"))
+	// The file containing the base template must be the first one in the slice.
+	files := []string{
+		"./ui/html/base.tmpl.html",
+		"./ui/html/pages/home.tmpl.html",
+	}
+
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	// Writes the template content as the response body. The last parameter represents
+	// any dynamic data that can be additionally passed in.
+	err = ts.ExecuteTemplate(w, "base", nil)
+	if err != nil {
+		log.Println(err.Error())
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
 }
 
 func noteView(w http.ResponseWriter, r *http.Request) {
