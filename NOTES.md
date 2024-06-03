@@ -30,8 +30,18 @@ A few reasons for using interfaces in go involve its help for reducing duplicati
 
 > Custom loggers created by `log.New()` are concurrency-safe. You can share a single logger and use it across multiple goroutines and in your handlers without needing to worry about race conditions.
 
+## Dependency Availability
+
+- **Global variables**: defining dependencies as global variables is only a possible fit if the application is small and simple, so keeping track of globals isn't a problem, HTTP handlers are spread across multiple packages but the dependency-related code lives in one package are there isn't a need develop a mock for testing purposes.
+
+- **Dependency injection**: has the advantage of clearly defining what dependencies the handlers have and what values they take at runtime. Another benefit is that any unit tests for handlers can be completely self-contained, meaning that there's no need to rely on any global variables **outside of the test**. In general, dependency injection is a useful approach when:
+    - There is a common set of dependencies that handlers need access to.
+    - All HTTP handlers live in one package, whereas dependency-related code don't.
+
 # Useful References
 
 - [semver](https://semver.org/)
 
 - [embed](https://pkg.go.dev/embed)
+
+- [12factor](https://12factor.net/)
