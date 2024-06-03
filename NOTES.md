@@ -24,7 +24,11 @@ A few reasons for using interfaces in go involve its help for reducing duplicati
 
 - Sanitizes all request paths by running them through the `path.Clean()` function before searching for a file, helping to stop **directory traversal attacks**. It is particularly useful in the context of a fileserver in conjunction with a router that doesn't automatically sanitize URL paths.
 
-- Provides support for range requests, which can be good when serving large files as a way to provide resumable downloads, e.g. `curl -i -H "Range: bytes=100-199" ...`
+- Provides support for range requests, which can be good when serving large files as a way to provide resumable downloads, e.g. `curl -i -H "Range: bytes=100-199" ...`.
+
+## Concurrent Logging
+
+> Custom loggers created by `log.New()` are concurrency-safe. You can share a single logger and use it across multiple goroutines and in your handlers without needing to worry about race conditions.
 
 # Useful References
 
