@@ -3,12 +3,11 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"strconv"
 )
 
-func home(w http.ResponseWriter, r *http.Request) {
+func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	// Check if the current request path exactly matches the root, if it doesn't, send
 	// a 404 response to the client.
 	if r.URL.Path != "/" {
@@ -25,7 +24,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 	ts, err := template.ParseFiles(files...)
 	if err != nil {
-		log.Println(err.Error())
+		app.errorLog.Println(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
@@ -34,12 +33,12 @@ func home(w http.ResponseWriter, r *http.Request) {
 	// any dynamic data that can be additionally passed in.
 	err = ts.ExecuteTemplate(w, "base", nil)
 	if err != nil {
-		log.Println(err.Error())
+		app.errorLog.Println(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 }
 
-func noteView(w http.ResponseWriter, r *http.Request) {
+func (app *application) noteView(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.URL.Query().Get("id"))
 	if err != nil || id < 1 {
 		http.NotFound(w, r)
@@ -49,7 +48,7 @@ func noteView(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Display a specific note with ID %d", id)
 }
 
-func noteCreate(w http.ResponseWriter, r *http.Request) {
+func (app *application) noteCreate(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		// Must be done before the calls to `w.WriteHeadere()` and `w.Write()` or else
 		// there will be no effect on the headers that a user receives.
