@@ -19,6 +19,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 	// The file containing the base template must be the first one in the slice.
 	files := []string{
 		"./ui/html/base.tmpl.html",
+		"./ui/html/partials/nav.tmpl.html",
 		"./ui/html/pages/home.tmpl.html",
 	}
 

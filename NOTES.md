@@ -20,6 +20,6 @@ When a ServeMux instance is not defined for registering routes, a `net/http` glo
 
 A few reasons for using interfaces in go involve its help for reducing duplication or boilerplace code, its ability to make it easier to use mocks instead of real objects in unit tests and as an architectural tool, to help enforce decoupling between parts of a codebase.
 
-## Useful References
+# Useful References
 
 - [semver](https://semver.org/)
