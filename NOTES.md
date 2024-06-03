@@ -20,6 +20,14 @@ When a ServeMux instance is not defined for registering routes, a `net/http` glo
 
 A few reasons for using interfaces in go involve its help for reducing duplication or boilerplace code, its ability to make it easier to use mocks instead of real objects in unit tests and as an architectural tool, to help enforce decoupling between parts of a codebase.
 
+## Go File Server
+
+- Sanitizes all request paths by running them through the `path.Clean()` function before searching for a file, helping to stop **directory traversal attacks**. It is particularly useful in the context of a fileserver in conjunction with a router that doesn't automatically sanitize URL paths.
+
+- Provides support for range requests, which can be good when serving large files as a way to provide resumable downloads, e.g. `curl -i -H "Range: bytes=100-199" ...`
+
 # Useful References
 
 - [semver](https://semver.org/)
+
+- [embed](https://pkg.go.dev/embed)
