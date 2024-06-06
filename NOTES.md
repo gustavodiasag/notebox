@@ -38,6 +38,12 @@ A few reasons for using interfaces in go involve its help for reducing duplicati
     - There is a common set of dependencies that handlers need access to.
     - All HTTP handlers live in one package, whereas dependency-related code don't.
 
+# Go's sql.Result
+
+The type returned by `DB.Exec()` provides two methods, `LastInsertId()`, which returns the integer returned by the database in response to a command, and `RowsAffected()`, which returns the number of rows affected by the statement.
+
+> Not all drivers and databases support the methods mentioned. PostgreSQL for example does not support the `LastInsertId()` command (check docs).
+
 # Useful References
 
 - [semver](https://semver.org/)
