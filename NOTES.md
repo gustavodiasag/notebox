@@ -46,7 +46,7 @@ The type returned by `DB.Exec()` provides two methods, `LastInsertId()`, which r
 
 ## Prepared Statement
 
-In database management systems, a prepared statement is a feature where ethe database pre-compiles SQL code and stores the results, separating it from data.
+In database management systems, a prepared statement is a feature where the database pre-compiles SQL code and stores the results, separating it from data.
 
 Benefits:
 
