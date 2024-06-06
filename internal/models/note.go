@@ -60,5 +60,36 @@ func (m *NoteModel) Get(id int) (*Note, error) {
 }
 
 func (m *NoteModel) Latest() ([]*Note, error) {
-	return nil, nil
+	stmt := `
+		SELECT id, title, content, created, expires
+		FROM notes
+		WHERE expires > UTC_TIMESTAMP()
+		ORDER BY id
+		DESC LIMIT 10
+	`
+	rows, err := m.DB.Query(stmt)
+	if err != nil {
+		return nil, err
+	}
+	// Ensures the resultset is always properly closed before the method returns.
+	defer rows.Close()
+
+	notes := []*Note{}
+
+	for rows.Next() {
+		n := &Note{}
+
+		err = rows.Scan(&n.ID, &n.Title, &n.Content, &n.Created, &n.Expires)
+		if err != nil {
+			return nil, err
+		}
+
+		notes = append(notes, n)
+	}
+	// The iteration may not have completed successfully over the whole resultset.
+	if err = rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return notes, nil
 }
