@@ -38,13 +38,13 @@ A few reasons for using interfaces in go involve its help for reducing duplicati
     - There is a common set of dependencies that handlers need access to.
     - All HTTP handlers live in one package, whereas dependency-related code don't.
 
-# Go's sql.Result
+## Go's sql.Result
 
 The type returned by `DB.Exec()` provides two methods, `LastInsertId()`, which returns the integer returned by the database in response to a command, and `RowsAffected()`, which returns the number of rows affected by the statement.
 
 > Not all drivers and databases support the methods mentioned. PostgreSQL for example does not support the `LastInsertId()` command (check docs).
 
-# Prepared statement
+## Prepared Statement
 
 In database management systems, a prepared statement is a feature where ethe database pre-compiles SQL code and stores the results, separating it from data.
 
@@ -54,9 +54,69 @@ Benefits:
 
 - **Security**: by reducing SQL injection attacks.
 
-# Closing a resultset
+## Closing a Resultset
 
 After an execution of a SQL statement, it is crucial to close a resultset because as long as it is open, it will keep the underlying database connection open, so if something goes wrong in this method and the resultset isn't closed, it can rapidly lead to all the connections in the pool being used.
+
+## Reusable Prepared Statements
+
+Example in Go:
+
+```go
+// We need somewhere to store the prepared statement for the lifetime of our
+// web application. A neat way is to embed in the model alongside the connection
+// pool.
+type ExampleModel struct {
+    DB         *sql.DB
+    InsertStmt *sql.Stmt
+}
+
+// Create a constructor for the model, in which we set up the prepared
+// statement.
+func NewExampleModel(db *sql.DB) (*ExampleModel, error) {
+    // Use the Prepare method to create a new prepared statement for the
+    // current connection pool. This returns a sql.Stmt object which represents
+    // the prepared statement.
+    insertStmt, err := db.Prepare("INSERT INTO ...")
+    if err != nil {
+        return nil, err
+    }
+
+    // Store it in our ExampleModel object, alongside the connection pool.
+    return &ExampleModel{db, insertStmt}, nil
+}
+
+// Any methods implemented against the ExampleModel object will have access to
+// the prepared statement.
+func (m *ExampleModel) Insert(args...) error {
+    // Notice how we call Exec directly against the prepared statement, rather
+    // than against the connection pool? Prepared statements also support the
+    // Query and QueryRow methods.
+    _, err := m.InsertStmt.Exec(args...)
+
+    return err
+}
+
+// In the web application's main function we will need to initialize a new
+// ExampleModel struct using the constructor function.
+func main() {
+    db, err := sql.Open(...)
+    if err != nil {
+        errorLog.Fatal(err)
+    }
+    defer db.Close()
+
+    // Create a new ExampleModel object, which includes the prepared statement.
+    exampleModel, err := NewExampleModel(db)
+    if err != nil {
+       errorLog.Fatal(err)
+    }
+
+    // Defer a call to Close() on the prepared statement to ensure that it is
+    // properly closed before our main function terminates.
+    defer exampleModel.InsertStmt.Close()
+}
+```
 
 # Useful References
 
