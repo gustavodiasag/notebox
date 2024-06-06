@@ -54,6 +54,10 @@ Benefits:
 
 - **Security**: by reducing SQL injection attacks.
 
+# Closing a resultset
+
+After an execution of a SQL statement, it is crucial to close a resultset because as long as it is open, it will keep the underlying database connection open, so if something goes wrong in this method and the resultset isn't closed, it can rapidly lead to all the connections in the pool being used.
+
 # Useful References
 
 - [semver](https://semver.org/)
