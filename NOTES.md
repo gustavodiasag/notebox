@@ -44,6 +44,16 @@ The type returned by `DB.Exec()` provides two methods, `LastInsertId()`, which r
 
 > Not all drivers and databases support the methods mentioned. PostgreSQL for example does not support the `LastInsertId()` command (check docs).
 
+# Prepared statement
+
+In database management systems, a prepared statement is a feature where ethe database pre-compiles SQL code and stores the results, separating it from data.
+
+Benefits:
+
+- **Efficiency**: they can be easily used repeatedly without re-compiling.
+
+- **Security**: by reducing SQL injection attacks.
+
 # Useful References
 
 - [semver](https://semver.org/)
