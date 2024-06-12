@@ -58,7 +58,6 @@ func openDB(dsn string) (*sql.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	// No connections are actually created from `Open` as it establishes them lazily.
 	// `Ping` is used to create a connection and check for any errors.
 	if err = db.Ping(); err != nil {
