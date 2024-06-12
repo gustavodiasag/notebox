@@ -1,0 +1,15 @@
+{{ define "title" }}Note {{ .Note.ID }}{{ end }}
+
+{{ define "main" }}
+  <div class='note'>
+    <div class='metadata'>
+      <strong>{{ .Note.Title }}</strong>
+      <span>#{{ .Note.ID }}</span>
+    </div>
+    <pre><code>{{ .Note.Content }}</code></pre>
+    <div class='metadata'>
+      <time>Created: {{ .Note.Created }}</time>
+      <time>Expires: {{ .Note.Expires }}</time>
+    </div>
+  </div>
+{{ end }}
