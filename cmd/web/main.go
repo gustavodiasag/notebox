@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"flag"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -13,9 +14,10 @@ import (
 )
 
 type application struct {
-	errorLog *log.Logger
-	infoLog  *log.Logger
-	notes    *models.NoteModel
+	errorLog      *log.Logger
+	infoLog       *log.Logger
+	notes         *models.NoteModel
+	templateCache map[string]*template.Template
 }
 
 func main() {
@@ -31,13 +33,18 @@ func main() {
 	if err != nil {
 		errorLog.Fatal(err)
 	}
-
 	defer db.Close()
 
+	templateCache, err := newTemplateCache()
+	if err != nil {
+		errorLog.Fatal(err)
+	}
+
 	app := &application{
-		errorLog: errorLog,
-		infoLog:  infoLog,
-		notes:    &models.NoteModel{DB: db},
+		errorLog:      errorLog,
+		infoLog:       infoLog,
+		notes:         &models.NoteModel{DB: db},
+		templateCache: templateCache,
 	}
 
 	// Define a new http.Server struct so that the server now uses the custom error
