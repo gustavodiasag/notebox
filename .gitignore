@@ -8,3 +8,6 @@
 
 # Go workspace file
 go.work
+
+# Private notes
+PATH.md
