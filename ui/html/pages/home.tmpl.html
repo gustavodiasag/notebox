@@ -4,6 +4,23 @@
 
 {{ define "main" }}
   <h2>Latest Notes</h2>
-  <p>Empty</p>
+  {{ if .Notes }}
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Created</th>
+      <th>ID</th>
+    </tr>
+    {{ range .Notes }}
+    <tr>
+      <td><a href='/note/view?id={{ .ID }}'>{{ .Title }}</a></td>
+      <td>{{ .Created }}</td>
+      <td>#{{ .ID }}</td>
+    </tr>
+    {{ end }}
+  </table>
+  {{ else }}
+    <p>Empty</p>
+  {{ end }}
 {{ end }}
 
