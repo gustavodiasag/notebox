@@ -9,8 +9,9 @@ import (
 
 // Acts as the holding structure for any dynamic data passe to HTML templates.
 type templateData struct {
-	Note  *models.Note
-	Notes []*models.Note
+	CurrentYear int
+	Note        *models.Note
+	Notes       []*models.Note
 }
 
 func newTemplateCache() (map[string]*template.Template, error) {
@@ -26,13 +27,12 @@ func newTemplateCache() (map[string]*template.Template, error) {
 	for _, page := range pages {
 		name := filepath.Base(page)
 
-		// Parse the file into a template set.
 		ts, err := template.ParseFiles("./ui/html/base.tmpl.html")
 		if err != nil {
 			return nil, err
 		}
 
-		ts, err = template.ParseGlob("./ui/html/partials/*.html")
+		ts, err = ts.ParseGlob("./ui/html/partials/*.html")
 		if err != nil {
 			return nil, err
 		}

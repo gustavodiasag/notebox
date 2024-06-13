@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"net/http"
@@ -23,9 +24,10 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.render(w, http.StatusOK, "home.tmpl.html", &templateData{
-		Notes: notes,
-	})
+	data := app.newTemplateData(r)
+	data.Notes = notes
+
+	app.render(w, http.StatusOK, "home.tmpl.html", data)
 }
 
 func (app *application) noteView(w http.ResponseWriter, r *http.Request) {
@@ -45,9 +47,10 @@ func (app *application) noteView(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	app.render(w, http.StatusOK, "view.tmpl.html", &templateData{
-		Note: note,
-	})
+	data := app.newTemplateData(r)
+	data.Note = note
+
+	app.render(w, http.StatusOK, "view.tmpl.html", data)
 }
 
 func (app *application) noteCreate(w http.ResponseWriter, r *http.Request) {
@@ -81,11 +84,17 @@ func (app *application) render(w http.ResponseWriter, status int, page string, d
 		app.serverError(w, err)
 		return
 	}
+	// Used to handle possible unexpected behaviour caused by errors during template rendering.
+	buf := new(bytes.Buffer)
+
+	err := ts.ExecuteTemplate(buf, "base", data)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
 
 	w.WriteHeader(status)
 
-	err := ts.ExecuteTemplate(w, "base", data)
-	if err != nil {
-		app.serverError(w, err)
-	}
+	// Takes `http,ResponseWriter` as `io.Writer`.
+	buf.WriteTo(w)
 }
