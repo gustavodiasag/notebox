@@ -118,6 +118,10 @@ func main() {
 }
 ```
 
+# Middleware
+
+A common way of organizing shared functionalities that are used for many, or even all, HTTP requests in a web application is to set them up as **middleware**. In essence, it is defined by some self-contained code which independently acts on a request before or after the general application handlers.
+
 # Useful References
 
 - [semver](https://semver.org/)
