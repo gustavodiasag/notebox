@@ -14,7 +14,7 @@
     {{ range .Notes }}
     <tr>
       <td><a href='/note/view?id={{ .ID }}'>{{ .Title }}</a></td>
-      <td>{{ .Created }}</td>
+      <td>{{ fmtDate .Created }}</td>
       <td>#{{ .ID }}</td>
     </tr>
     {{ end }}
