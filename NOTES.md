@@ -122,6 +122,12 @@ func main() {
 
 A common way of organizing shared functionalities that are used for many, or even all, HTTP requests in a web application is to set them up as **middleware**. In essence, it is defined by some self-contained code which independently acts on a request before or after the general application handlers.
 
+# Same-Origin Policy
+
+Mechanism that restricts how a document or script loaded by one origin[^1] can interact with a resource from another origin.
+
+[^1]: Defined by the *scheme*, *hostname* and *port* of the URL to access it.  
+
 # Useful References
 
 - [semver](https://semver.org/)
@@ -129,3 +135,5 @@ A common way of organizing shared functionalities that are used for many, or eve
 - [embed](https://pkg.go.dev/embed)
 
 - [12factor](https://12factor.net/)
+
+- [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
