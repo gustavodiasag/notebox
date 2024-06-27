@@ -20,7 +20,7 @@ type NoteModel struct {
 
 func (m *NoteModel) Insert(title string, content string, expires int) (int, error) {
 	stmt := `
-		INSERT INTO notes (title, content, created, expires)
+		INSERT INTO note (title, content, created, expires)
 		VALUES(?, ?, UTC_TIMESTAMP(), DATE_ADD(UTC_TIMESTAMP(), INTERVAL ? DAY))
 	`
 	result, err := m.DB.Exec(stmt, title, content, expires)
@@ -39,7 +39,7 @@ func (m *NoteModel) Insert(title string, content string, expires int) (int, erro
 func (m *NoteModel) Get(id int) (*Note, error) {
 	stmt := `
 		SELECT id, title, content, created, expires
-		FROM notes
+		FROM note
 		WHERE expires > UTC_TIMESTAMP() AND id = ?
 	`
 	// Returns a pointer to `sql.Row`.
@@ -62,7 +62,7 @@ func (m *NoteModel) Get(id int) (*Note, error) {
 func (m *NoteModel) Latest() ([]*Note, error) {
 	stmt := `
 		SELECT id, title, content, created, expires
-		FROM notes
+		FROM note
 		WHERE expires > UTC_TIMESTAMP()
 		ORDER BY id
 		DESC LIMIT 10
