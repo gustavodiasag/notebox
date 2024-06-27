@@ -12,5 +12,5 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("/note/view", app.noteView)
 	mux.HandleFunc("/note/create", app.noteCreate)
 
-	return secureHeaders(mux)
+	return app.logRequest(secureHeaders(mux))
 }
