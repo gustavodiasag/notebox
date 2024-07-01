@@ -8,11 +8,12 @@ import (
 	"github.com/gustavodiasag/notebox/internal/models"
 )
 
-// Acts as the holding structure for any dynamic data passe to HTML templates.
+// Acts as the holding structure for any dynamic data passed to HTML templates.
 type templateData struct {
 	CurrentYear int
 	Note        *models.Note
 	Notes       []*models.Note
+	Form        any
 }
 
 func fmtDate(t time.Time) string {

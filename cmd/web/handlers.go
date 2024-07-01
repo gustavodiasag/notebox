@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	"github.com/gustavodiasag/notebox/internal/models"
+	"github.com/gustavodiasag/notebox/internal/validator"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -49,16 +50,46 @@ func (app *application) noteView(w http.ResponseWriter, r *http.Request) {
 	app.render(w, http.StatusOK, "view.tmpl.html", data)
 }
 
+type noteCreateForm struct {
+	Title   string `form:"title"`
+	Content string `form:"content"`
+	Expires int    `form:"expires"`
+	// Ignores field while encoding.
+	validator.Validator `form:"-"`
+}
+
 func (app *application) noteCreate(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("TODO"))
+	data := app.newTemplateData(r)
+	// Sets any default or initial values for the form.
+	data.Form = noteCreateForm{
+		Expires: 365,
+	}
+
+	app.render(w, http.StatusOK, "create.tmpl.html", data)
 }
 
 func (app *application) noteCreatePost(w http.ResponseWriter, r *http.Request) {
-	title := "O snail"
-	content := "O snail\nClimb Mount Fuji,\nBut slowly, slowly!\n\n- Kobayashi Issa"
-	expires := 7
+	var form noteCreateForm
 
-	id, err := app.notes.Insert(title, content, expires)
+	err := app.decodePostForm(r, &form)
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	form.CheckField(validator.NotBlank(form.Title), "title", "Field cannot be blank")
+	form.CheckField(validator.MaxChars(form.Title, 100), "title", "Field cannot exceed 100 characters")
+	form.CheckField(validator.NotBlank(form.Content), "content", "Field cannot be blank")
+	form.CheckField(validator.PermittedInt(form.Expires, 1, 7, 365), "expires", "Field must be equal to 1, 7 or 365")
+
+	if !form.Valid() {
+		data := app.newTemplateData(r)
+		data.Form = form
+		app.render(w, http.StatusUnprocessableEntity, "create.tmpl.html", data)
+		return
+	}
+
+	id, err := app.notes.Insert(form.Title, form.Content, form.Expires)
 	if err != nil {
 		app.serverError(w, err)
 		return
