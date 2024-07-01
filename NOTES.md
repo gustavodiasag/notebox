@@ -147,3 +147,5 @@ This error must be checked specifically and managed as a special case, rather th
 - [12factor](https://12factor.net/)
 
 - [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+
+- [OWASP](https://cheatsheetseries.owasp.org/index.html)
