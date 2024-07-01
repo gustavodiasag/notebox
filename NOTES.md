@@ -128,6 +128,16 @@ Mechanism that restricts how a document or script loaded by one origin[^1] can i
 
 [^1]: Defined by the *scheme*, *hostname* and *port* of the URL to access it.  
 
+# Map information on HTML templates
+
+For maps, it's possible to access the value for a given key by simply chaining the key name. So, for example, to render a validation error for a `title` field, the tag `{{ .Form.FieldErrors.title }}` can be used in a template.
+
+# Form Decoder
+
+When `app.formDecoder.Decode()` is called, it requires a **non-nil** pointer as the target decode destination. If something is passed that isn't a non-nil pointer, `Decode()` will return a `form.InvalidDecoderError`.
+
+This error must be checked specifically and managed as a special case, rather than just returning a `400 Bad Request` response.
+
 # Useful References
 
 - [semver](https://semver.org/)
