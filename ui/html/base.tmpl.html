@@ -16,13 +16,17 @@
     </header>
     {{ template "nav" . }}
     <main>
+      <!-- Display the flash message if one exists. -->
+      {{ with .Flash }}
+        <div class='flash'>{{ . }}</div>
+      {{ end }}
       {{ template "main" . }}
-    </main>
-    <footer>
-      Powered by <a href='https://golang.org'>Go</a> - {{ .CurrentYear }}
-    </footer>
-    <!-- Include scripts -->
-    <script src='/static/js/main.js' type="text/javascript"></script>
-  </body>
-</html>
-{{ end }}
+      </main>
+      <footer>
+        Powered by <a href='https://golang.org'>Go</a> - {{ .CurrentYear }}
+      </footer>
+      <!-- Include scripts -->
+      <script src='/static/js/main.js' type="text/javascript"></script>
+    </body>
+  </html>
+  {{ end }}
