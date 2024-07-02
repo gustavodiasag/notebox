@@ -89,6 +89,8 @@ func (app *application) noteCreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	app.sessionManager.Put(r.Context(), "flash", "Note successfully created!")
+
 	id, err := app.notes.Insert(form.Title, form.Content, form.Expires)
 	if err != nil {
 		app.serverError(w, err)

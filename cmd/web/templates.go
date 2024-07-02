@@ -14,6 +14,7 @@ type templateData struct {
 	Note        *models.Note
 	Notes       []*models.Note
 	Form        any
+	Flash       string
 }
 
 func fmtDate(t time.Time) string {
