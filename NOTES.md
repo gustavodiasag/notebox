@@ -138,6 +138,12 @@ When `app.formDecoder.Decode()` is called, it requires a **non-nil** pointer as 
 
 This error must be checked specifically and managed as a special case, rather than just returning a `400 Bad Request` response.
 
+# Restricting cipher suites
+
+For some applications, it may be desirable to limit a HTTPS server to only support some of the cipher suites that Go suppoerts. For example, one might want to only suppoer cipher suites which user forward secrecy and not support weal cipher suites that use RC4, 3DES or CBC.
+
+One thing to notice, however, is that restricting the supported cipher suites to only include moden ciphers can mean that users with certain older browsers won't be able to use the website.
+
 # Useful References
 
 - [semver](https://semver.org/)
