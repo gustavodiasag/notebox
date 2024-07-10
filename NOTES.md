@@ -146,7 +146,7 @@ One thing to notice, however, is that restricting the supported cipher suites to
 
 # Observable Response Discrepancy
 
-The product provides different responses to incomnig requests in a way that reveals internal state information to an unauthorized actor outise of the intended control scope.
+The product provides different responses to incomnig requests in a way that reveals internal state information to an unauthorized actor outise of the intended control scope. This issue frequently occurs during authentication, where a difference in failed-login messages could allow an attacker to determine if the username is valid or not. These exposures can be inadvertent or intentional.
 
 # Useful References
 
