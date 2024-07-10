@@ -155,3 +155,5 @@ One thing to notice, however, is that restricting the supported cipher suites to
 - [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
 
 - [OWASP](https://cheatsheetseries.owasp.org/index.html)
+
+- [CWE](https://cwe.mitre.org/index.html)
