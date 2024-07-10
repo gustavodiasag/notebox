@@ -142,7 +142,11 @@ This error must be checked specifically and managed as a special case, rather th
 
 For some applications, it may be desirable to limit a HTTPS server to only support some of the cipher suites that Go suppoerts. For example, one might want to only suppoer cipher suites which user forward secrecy and not support weal cipher suites that use RC4, 3DES or CBC.
 
-One thing to notice, however, is that restricting the supported cipher suites to only include moden ciphers can mean that users with certain older browsers won't be able to use the website.
+One thing to notice, however, is that restricting the supported cipher suites to only include modern ciphers can mean that users with certain older browsers won't be able to use the website.
+
+# Observable Response Discrepancy
+
+The product provides different responses to incomnig requests in a way that reveals internal state information to an unauthorized actor outise of the intended control scope.
 
 # Useful References
 
