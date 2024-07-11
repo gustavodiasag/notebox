@@ -10,11 +10,12 @@ import (
 
 // Acts as the holding structure for any dynamic data passed to HTML templates.
 type templateData struct {
-	CurrentYear int
-	Note        *models.Note
-	Notes       []*models.Note
-	Form        any
-	Flash       string
+	CurrentYear     int
+	Note            *models.Note
+	Notes           []*models.Note
+	Form            any
+	Flash           string
+	IsAuthenticated bool
 }
 
 func fmtDate(t time.Time) string {
