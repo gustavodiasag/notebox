@@ -2,14 +2,20 @@
 <nav>
   <div>
     <a href='/'>Home</a>
-    <a href='/note/create'>Create note</a>
+    <!-- Toggle the link based on authentication status -->
+    {{ if .IsAuthenticated }}
+      <a href='/note/create'>Create note</a>
+    {{ end }}
   </div>
   <div>
-    <a href='/user/signup'>Signup</a>
-    <a href='/user/login'>Login</a>
-    <form action='/user/logout' method='POST'>
-      <button>Logout</button>
-    </form>
+    {{ if .IsAuthenticated }}
+      <form action='/user/logout' method='POST'>
+        <button>Logout</button>
+      </form>
+    {{ else }}
+      <a href='/user/signup'>Signup</a>
+      <a href='/user/login'>Login</a>
+    {{ end }}
   </div>
 </nav>
 {{ end }}
