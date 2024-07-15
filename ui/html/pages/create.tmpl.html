@@ -4,6 +4,7 @@ Create a New Note
 
 {{ define "main" }}
 <form action='/note/create' method='POST'>
+  <input type='hidden' name='csrf_token', value='{{ .CSRFToken }}'>
   <div>
     <label>Title:</label>
     <!-- Renders the value of `.Form.FieldErrors.title` if it's not empty. -->
