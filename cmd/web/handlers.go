@@ -208,7 +208,7 @@ func (app *application) noteCreatePost(w http.ResponseWriter, r *http.Request) {
 	form.CheckField(validator.NotBlank(form.Title), "title", "Field cannot be blank")
 	form.CheckField(validator.MaxChars(form.Title, 100), "title", "Field cannot exceed 100 characters")
 	form.CheckField(validator.NotBlank(form.Content), "content", "Field cannot be blank")
-	form.CheckField(validator.PermittedInt(form.Expires, 1, 7, 365), "expires", "Field must be equal to 1, 7 or 365")
+	form.CheckField(validator.PermittedValue(form.Expires, 1, 7, 365), "expires", "Field must be equal to 1, 7 or 365")
 
 	if !form.Valid() {
 		data := app.newTemplateData(r)
