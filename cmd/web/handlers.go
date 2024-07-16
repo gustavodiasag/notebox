@@ -249,3 +249,7 @@ func (app *application) render(w http.ResponseWriter, status int, page string, d
 	// Takes `http,ResponseWriter` as `io.Writer`.
 	buf.WriteTo(w)
 }
+
+func healthCheck(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("OK"))
+}
