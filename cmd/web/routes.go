@@ -19,6 +19,8 @@ func (app *application) routes() http.Handler {
 	fileServer := http.FileServer(http.FS(ui.Files))
 	router.Handler(http.MethodGet, "/static/*filepath", fileServer)
 
+	router.HandlerFunc(http.MethodGet, "/health_check", healthCheck)
+
 	// Middleware chain containing the middleware specific to the dynamic application routes.
 	dyn := alice.New(app.sessionManager.LoadAndSave, noSurf, app.authenticate)
 
