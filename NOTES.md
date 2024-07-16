@@ -148,6 +148,12 @@ One thing to notice, however, is that restricting the supported cipher suites to
 
 The product provides different responses to incomnig requests in a way that reveals internal state information to an unauthorized actor outise of the intended control scope. This issue frequently occurs during authentication, where a difference in failed-login messages could allow an attacker to determine if the username is valid or not. These exposures can be inadvertent or intentional.
 
+# Recording Responses
+
+To assist in testing HTTP handlers, Go provides the `net/http/httptest` package, which contains tools such as the `httptest.ResponseRecorder` type. This is essentially an implementation of `http.ResponseWriter` which records the response status code, headers and body instead of actually writing them to an HTTP connection. 
+
+So an easy way to unit test handlers is to create a new `httptest.ResponseRecorder` object, pass it to the handler function, and then examine it again after the handler returns.
+
 # Useful References
 
 - [semver](https://semver.org/)
