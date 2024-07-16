@@ -22,7 +22,10 @@ type templateData struct {
 }
 
 func fmtDate(t time.Time) string {
-	return t.Format("02 Jan, 2006")
+	if t.IsZero() {
+		return ""
+	}
+	return t.UTC().Format("02 Jan, 2006")
 }
 
 var functions = template.FuncMap{
