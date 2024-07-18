@@ -154,6 +154,16 @@ To assist in testing HTTP handlers, Go provides the `net/http/httptest` package,
 
 So an easy way to unit test handlers is to create a new `httptest.ResponseRecorder` object, pass it to the handler function, and then examine it again after the handler returns.
 
+# Count Flag for Tests
+
+The `count` flag is used to tell `go test` how many times you want to execute each test. It's a non-cacheable flag, which means that any time it is used `go test` will neither read or write the test rsults to the cache. so using `count=1` is a trick to avoid the cache without other wise affecting how tests run.
+
+Alternatively, cached results can be cleaned for all tests with the `go clean` command:
+
+```sh
+$ go clean -testcache
+```
+
 # Useful References
 
 - [semver](https://semver.org/)
