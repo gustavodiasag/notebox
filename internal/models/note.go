@@ -14,6 +14,12 @@ type Note struct {
 	Expires time.Time
 }
 
+type NoteModelInterface interface {
+	Insert(title string, content string, expires int) (int, error)
+	Get(id int) (*Note, error)
+	Latest() ([]*Note, error)
+}
+
 type NoteModel struct {
 	DB *sql.DB
 }
