@@ -164,6 +164,10 @@ Alternatively, cached results can be cleaned for all tests with the `go clean` c
 $ go clean -testcache
 ```
 
+# Ignored files and folders
+
+The Go tool ignores any directories called testdata, so any content inside them will be ignored when compiling a Go application. It also ignores any directories or files which have names that begin with an `_` or `.` character too.
+
 # Useful References
 
 - [semver](https://semver.org/)
