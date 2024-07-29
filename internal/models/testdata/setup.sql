@@ -10,8 +10,8 @@ CREATE INDEX idx_note_created ON note(created);
 
 CREATE TABLE user (
   id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL
-  email VARCHAR(255) NOT NULL
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
   hashed_password CHAR(60) NOT NULL,
   created DATETIME NOT NULL
 );
