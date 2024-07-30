@@ -3,47 +3,47 @@ Create a New Note
 {{ end }}
 
 {{ define "main" }}
-<form action='/note/create' method='POST'>
-  <input type='hidden' name='csrf_token', value='{{ .CSRFToken }}'>
-  <div>
-    <label>Title:</label>
-    <!-- Renders the value of `.Form.FieldErrors.title` if it's not empty. -->
-    {{ with .Form.FieldErrors.title }}
-      <label class='error'>{{ . }}</label>
-    {{ end }}
-    <!-- Repopulate the title data by setting the `value` attribute. -->
-    <input type='text' name='title' value='{{ .Form.Title }}'>
-  </div>
-  <div>
-    <label>Content:</label>
-    {{ with .Form.FieldErrors.content }}
-      <label class='error'>{{ . }}</label>
-    {{ end }}
-    <textarea name='content'>{{ .Form.Content }}</textarea>
-  </div>
-  <div>
-    <label>Delete in:</label>
-    {{ with .Form.FieldErrors.expires }}
-      <label class='error'>{{ . }}</label>
-    {{ end }}
-    <input type='radio' name='expires' value='365'
-      {{ if (eq .Form.Expires 365)}}
-        checked
+  <form action='/note/create' method='POST'>
+    <input type='hidden' name='csrf_token', value='{{ .CSRFToken }}'>
+    <div>
+      <label>Title:</label>
+      <!-- Renders the value of `.Form.FieldErrors.title` if it's not empty. -->
+      {{ with .Form.FieldErrors.title }}
+        <label class='error'>{{ . }}</label>
       {{ end }}
-    > One Year
-    <input type='radio' name='expires' value='7'
-      {{ if (eq .Form.Expires 7)}}
-        checked
+      <!-- Repopulate the title data by setting the `value` attribute. -->
+      <input type='text' name='title' value='{{ .Form.Title }}'>
+    </div>
+    <div>
+      <label>Content:</label>
+      {{ with .Form.FieldErrors.content }}
+        <label class='error'>{{ . }}</label>
       {{ end }}
-    > One Week
-    <input type='radio' name='expires' value='1'
-      {{ if (eq .Form.Expires 1)}}
-        checked
+      <textarea name='content'>{{ .Form.Content }}</textarea>
+    </div>
+    <div>
+      <label>Delete in:</label>
+      {{ with .Form.FieldErrors.expires }}
+        <label class='error'>{{ . }}</label>
       {{ end }}
-    > One Day
-  </div>
-  <div>
-    <input type='submit' value='Publish note'>
-  </div>
-</form>
+      <input type='radio' name='expires' value='365'
+        {{ if (eq .Form.Expires 365)}}
+          checked
+        {{ end }}
+      > One Year
+      <input type='radio' name='expires' value='7'
+        {{ if (eq .Form.Expires 7)}}
+          checked
+        {{ end }}
+      > One Week
+      <input type='radio' name='expires' value='1'
+        {{ if (eq .Form.Expires 1)}}
+          checked
+        {{ end }}
+      > One Day
+    </div>
+    <div>
+      <input type='submit' value='Publish note'>
+    </div>
+  </form>
 {{ end }}
