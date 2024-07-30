@@ -38,6 +38,8 @@ func (app *application) routes() http.Handler {
 	router.Handler(http.MethodGet, "/account/view", protected.ThenFunc(app.accountView))
 	router.Handler(http.MethodGet, "/note/create", protected.ThenFunc(app.noteCreate))
 	router.Handler(http.MethodPost, "/note/create", protected.ThenFunc(app.noteCreatePost))
+	router.Handler(http.MethodGet, "/account/password/update", protected.ThenFunc(app.passwordUpdate))
+	router.Handler(http.MethodPost, "/account/password/update", protected.ThenFunc(app.passwordUpdatePost))
 	router.Handler(http.MethodPost, "/user/logout", protected.ThenFunc(app.userLogoutPost))
 
 	// Middleware chain containing the standard middleware for the application.
