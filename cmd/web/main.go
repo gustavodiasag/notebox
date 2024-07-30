@@ -19,6 +19,7 @@ import (
 )
 
 type application struct {
+	debug          bool
 	errorLog       *log.Logger
 	infoLog        *log.Logger
 	notes          models.NoteModelInterface
@@ -31,6 +32,7 @@ type application struct {
 func main() {
 	addr := flag.String("addr", ":4000", "HTTP network address")
 	dsn := flag.String("dsn", "web:pass@/notebox?parseTime=true", "MySQL data source name")
+	debug := flag.Bool("debug", false, "Enter debug mode")
 
 	flag.Parse()
 
@@ -57,6 +59,7 @@ func main() {
 	sessionManager.Cookie.Secure = true
 
 	app := &application{
+		debug:          *debug,
 		errorLog:       errorLog,
 		infoLog:        infoLog,
 		notes:          &models.NoteModel{DB: db},
