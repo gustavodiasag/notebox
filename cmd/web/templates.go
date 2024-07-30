@@ -13,6 +13,7 @@ import (
 // Acts as the holding structure for any dynamic data passed to HTML templates.
 type templateData struct {
 	CurrentYear     int
+	User            *models.User
 	Note            *models.Note
 	Notes           []*models.Note
 	Form            any

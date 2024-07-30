@@ -20,6 +20,7 @@ type User struct {
 
 type UserModelInterface interface {
 	Insert(name, email, password string) error
+	Get(id int) (*User, error)
 	Authenticate(email, password string) (int, error)
 	Exists(id int) (bool, error)
 }
@@ -55,6 +56,22 @@ func (m *UserModel) Insert(name, email, password string) error {
 	return nil
 }
 
+func (m *UserModel) Get(id int) (*User, error) {
+	var user User
+
+	stmt := `SELECT name, email, created FROM user WHERE id = ?`
+
+	err := m.DB.QueryRow(stmt, id).Scan(&user.Name, &user.Email, &user.Created)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, ErrNoRecord
+		}
+		return nil, err
+	}
+
+	return &user, nil
+}
+
 func (m *UserModel) Authenticate(email, password string) (int, error) {
 	var id int
 	var hashedPassword []byte
@@ -65,18 +82,16 @@ func (m *UserModel) Authenticate(email, password string) (int, error) {
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
 			return 0, ErrInvalidCredentials
-		} else {
-			return 0, err
 		}
+		return 0, err
 	}
 
 	err = bcrypt.CompareHashAndPassword(hashedPassword, []byte(password))
 	if err != nil {
 		if errors.Is(err, bcrypt.ErrMismatchedHashAndPassword) {
 			return 0, ErrInvalidCredentials
-		} else {
-			return 0, err
 		}
+		return 0, err
 	}
 
 	return id, nil

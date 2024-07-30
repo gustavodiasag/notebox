@@ -1,6 +1,10 @@
 package mocks
 
-import "github.com/gustavodiasag/notebox/internal/models"
+import (
+	"time"
+
+	"github.com/gustavodiasag/notebox/internal/models"
+)
 
 type UserModel struct{}
 
@@ -11,6 +15,20 @@ func (m *UserModel) Insert(name, email, password string) error {
 	default:
 		return nil
 	}
+}
+
+func (m *UserModel) Get(id int) (*models.User, error) {
+	if id != 1 {
+		return nil, models.ErrNoRecord
+	}
+
+	u := &models.User{
+		ID:      1,
+		Name:    "Alice",
+		Email:   "alice@example.com",
+		Created: time.Now(),
+	}
+	return u, nil
 }
 
 func (m *UserModel) Authenticate(email, password string) (int, error) {

@@ -35,6 +35,7 @@ func (app *application) routes() http.Handler {
 	// Authenticated-only routes.
 	protected := dyn.Append(app.requireAuthentication)
 
+	router.Handler(http.MethodGet, "/account/view", protected.ThenFunc(app.accountView))
 	router.Handler(http.MethodGet, "/note/create", protected.ThenFunc(app.noteCreate))
 	router.Handler(http.MethodPost, "/note/create", protected.ThenFunc(app.noteCreatePost))
 	router.Handler(http.MethodPost, "/user/logout", protected.ThenFunc(app.userLogoutPost))
