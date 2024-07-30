@@ -47,3 +47,14 @@ func (m *UserModel) Exists(id int) (bool, error) {
 		return false, nil
 	}
 }
+
+func (m *UserModel) UpdatePassword(id int, current, new string) error {
+	if id != 1 {
+		return models.ErrNoRecord
+	}
+	if current != "pass" {
+		return models.ErrInvalidCredentials
+	}
+
+	return nil
+}
