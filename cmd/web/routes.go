@@ -25,6 +25,7 @@ func (app *application) routes() http.Handler {
 	dyn := alice.New(app.sessionManager.LoadAndSave, noSurf, app.authenticate)
 
 	router.Handler(http.MethodGet, "/", dyn.ThenFunc(app.home))
+	router.Handler(http.MethodGet, "/about", dyn.ThenFunc(app.about))
 	router.Handler(http.MethodGet, "/note/view/:id", dyn.ThenFunc(app.noteView))
 	router.Handler(http.MethodGet, "/user/signup", dyn.ThenFunc(app.userSignup))
 	router.Handler(http.MethodPost, "/user/signup", dyn.ThenFunc(app.userSignupPost))

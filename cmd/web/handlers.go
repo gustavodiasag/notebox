@@ -25,6 +25,12 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	app.render(w, http.StatusOK, "home.tmpl.html", data)
 }
 
+func (app *application) about(w http.ResponseWriter, r *http.Request) {
+	data := app.newTemplateData(r)
+
+	app.render(w, http.StatusOK, "about.tmpl.html", data)
+}
+
 type userSignupForm struct {
 	Name                string `form:"name"`
 	Email               string `form:"email"`
@@ -228,6 +234,10 @@ func (app *application) noteCreatePost(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, fmt.Sprintf("/note/view/%d", id), http.StatusSeeOther)
 }
 
+func healthCheck(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("OK"))
+}
+
 func (app *application) render(w http.ResponseWriter, status int, page string, data *templateData) {
 	ts, ok := app.templateCache[page]
 	if !ok {
@@ -248,8 +258,4 @@ func (app *application) render(w http.ResponseWriter, status int, page string, d
 
 	// Takes `http,ResponseWriter` as `io.Writer`.
 	buf.WriteTo(w)
-}
-
-func healthCheck(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("OK"))
 }
